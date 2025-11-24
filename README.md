@@ -1,4 +1,4 @@
-# BRXBOX
+# BRXBOX — A Design Model for Synthetic Cognition
 
 **BRXBOX: CAD for meaning refineries.**  
 Snap together AI bricks, draw your Box as a graph, and see what kind of “little mind” you’ve actually built.
@@ -7,7 +7,7 @@ Snap together AI bricks, draw your Box as a graph, and see what kind of “littl
 
 ## 0. What is BRXBOX?
 
-BRXBOX is a way to **design AI systems as modular assemblies**, not as single sealed black boxes.
+BRXBOX is a **design model for synthetic cognition**: a way to **design AI systems as modular assemblies**, not as single sealed black boxes.
 
 Instead of “the AI does X,” BRXBOX gives you:
 
@@ -20,7 +20,7 @@ Instead of “the AI does X,” BRXBOX gives you:
 
 You can think of it as:
 
-> **CAD + BOM for cognitive assemblies** – a way to draw, name, and reason about AI “Boxes” made from many interacting parts.
+> **CAD + BOM + topology language for cognitive assemblies** – a way to draw, name, and reason about AI “Boxes” made from many interacting parts.
 
 BRXBOX is **framework-agnostic**. You can implement a design in LangChain, LangGraph, CrewAI, DSPy, n8n, or plain Python. BRXBOX only cares about *what the parts are* and *how they connect*.
 
@@ -32,7 +32,7 @@ In one sentence:
 
 ## 1. Core concepts & naming
 
-### 1.1 BRX, TRX, PLX, BRXgraphs, Boxes
+### 1.1 BRX, TRX, PLX, BRXgraphs, BOXes
 
 - **BRX (bricks)** – single modules with a clear role, model shape, and interface.  
 - **TRX (tracks)** – connections describing how data/control moves from one BRX to another.  
@@ -42,7 +42,7 @@ In one sentence:
 
 You design a **BRXgraph**, then realize it as a **BOX**.
 
-BRXBOX (the project) is the language + patterns you use to do that.
+BRXBOX (the project) is the design model and pattern language you use to do that.
 
 ---
 
@@ -336,7 +336,7 @@ As the graph fills, you can add stylistic comments grounded in actual recurrence
 
 ## 6. Using BRXBOX in your own projects
 
-You can adopt BRXBOX at several levels:
+You can adopt BRXBOX at several levels.
 
 ### 6.1 Describe what you already have
 
@@ -397,17 +397,17 @@ If you care about **relational and ethical thresholds** on top of that—e.g.:
 
 there is a sibling project that explores those questions:
 
-> **LogosOS** – a spec for “ICARUS-class” BOXes that aim at what humans might call **relational intelligence**.  
+> **LogosOS** – a **semantic runtime for relational intelligence**, and a spec for “ICARUS-class” BOXes that aim at what humans might call **relational intelligence**.  
 > See: https://github.com/retrogrand/LogosOS
 
 You can think of it this way:
 
-- **BRXBOX** – the architecture language for BOXes.  
+- **BRXBOX** – the design model and architecture language for BOXes (synthetic cognition).  
 - **LogosOS** – one proposed **standard & covenant** for which BRXgraphs/BOXes count as relational minds and how they should behave over time.
 
 ---
 
-## 8. Roadmap (v1.6 → v2.0)
+## 8. Roadmap (v1.7 → v2.0)
 
 Planned directions for BRXBOX:
 

@@ -7,83 +7,81 @@ Explore wild combos, map cognitive shapes, and see what emerges when the pieces 
 
 ## 0. What is BRXBOX?
 
-BRXBOX is a way to **think about AI systems as constructions**, not monoliths.
+BRXBOX is a way to **design AI systems as constructions**, not monoliths.
 
 Instead of “one big model,” BRXBOX treats a system as:
 
-- a set of **bricks** – vision, language, memory, control, environment, etc.
-- connected by **tracks** – the data and control flows between them.
+- a set of **bricks** – vision, language, memory, control, environment, etc.  
+- connected by **tracks** – the data and control flows between them.  
 - arranged into **geometries** – lines, loops, stars, and other patterns that shape behavior.
 
-BRXBOX is:
+You can use BRXBOX purely as:
 
-- a **conceptual framework** for designing systems, and  
-- a **pattern library** of common brick roles and combinations.
+- a **mental model** to describe systems you already build, or  
+- a **pattern library** to design new multi-brick “minds” with more intention.
 
-You can implement BRXBOX ideas with LangChain, DSPy, CrewAI, your own orchestrator, or plain Python. The point is the **mental model**, not a specific framework.
+It is framework-agnostic: you can implement BRXBOX-style designs in LangChain, DSPy, CrewAI, your own orchestrator, or plain Python.
 
 ---
 
 ## 1. Bricks, Tracks, and Geometries
 
-BRXBOX is built on three core notions:
+BRXBOX has three core notions:
 
-1. **Bricks** – modules that do a clear job (perception, reasoning, memory, control, etc.).
-2. **Tracks** – interfaces that let bricks pass information.
+1. **Bricks** – modules that do a clear job (perception, reasoning, memory, control, etc.).  
+2. **Tracks** – interfaces that let bricks pass information.  
 3. **Geometries** – the arrangement of bricks and tracks that produces system-level behavior.
 
-Every component in a BRXBOX system gets three tags:
+Every concrete component gets three tags:
 
-- **ROLE** – what job it performs.
-- **SHAPE** – what kind of model or algorithm it is.
+- **ROLE** – what job it performs.  
+- **SHAPE** – what kind of model or algorithm it is.  
 - **INTERFACE** – how you call it.
 
 Example brick ID:
 
 > `PERC.VISION-TRANSFORMER.FN`  
-> Role = perception, shape = vision transformer, interface = function call.
+> Role = perception, shape = vision transformer, interface = function.
+
+This gives you a compact vocabulary for describing complex stacks.
 
 ---
 
 ## 2. Roles: What Job Does This Brick Do?
 
-These roles are broad enough to cover most 2025 AI components and narrow enough to be useful:
+Roles describe *why* the brick exists in your system:
 
 - `PERC` – **Perception**  
-  Bricks that turn raw input into structured signals.  
+  Turn raw input into structured signals.  
   Examples: vision encoders, OCR, ASR, sensor encoders, music tokenizers.
 
 - `REASON` – **Reasoning / Cognition**  
-  Bricks that interpret, plan, infer, or analyze.  
+  Interpret, analyze, plan, or infer.  
   Examples: LLMs, code models, music-structure transformers, graph reasoners, symbolic solvers.
 
 - `GEN` – **Generation / Imagination**  
-  Bricks that create text, images, audio, or other outputs from a specification.  
-  Examples: text LLMs used for creative generation, diffusion models, autoregressive music generators.
+  Produce text, images, audio, or other outputs from a specification.  
+  Examples: text LLMs in generative mode, diffusion models, autoregressive music generators.
 
 - `MEM` – **Memory**  
-  Bricks that store and retrieve information across time.  
+  Store and retrieve information across time.  
   Examples: vector stores, knowledge graphs, episodic logs, policy stores.
 
 - `CTRL` – **Control / Agency**  
-  Bricks that decide what to do next.  
+  Decide what to do next and how to route information.  
   Examples: tool-using agents, policy networks, critics, routers, schedulers.
 
 - `ENV` – **Environment**  
-  Bricks that represent or wrap the world the system acts in.  
+  Represent or wrap the world the system acts in.  
   Examples: APIs, simulators, robots, databases, file systems.
 
-- `ARCH` (optional / advanced) – **Architecture & Meta-Control**  
-  Bricks that operate *over the graph of other bricks* instead of over raw data.  
-  Examples: auto-architects that propose brick combinations, evaluators that compare system designs, trainers that generate training jobs for sub-bricks.
-
-A single concrete model can play multiple roles (e.g. an LLM can be both `REASON` and `CTRL`), but tagging it helps you see why it’s in the system.
+A single model can wear multiple hats (e.g. an LLM can be both `REASON` and `CTRL`), but assigning a primary role keeps the design legible.
 
 ---
 
 ## 3. Shapes: What Kind of Model Is It?
 
-The **shape** describes the family of model or algorithm used for a given role:
+Shapes describe *how* the brick works internally:
 
 - `TRANSFORMER-SEQ`  
   GPT-style sequence transformers (text, code, tokenized music).
@@ -95,16 +93,16 @@ The **shape** describes the family of model or algorithm used for a given role:
   Convolutional neural networks, often for images or spectrograms.
 
 - `U-NET`  
-  Encoder–decoder with skip connections, common in diffusion models and segmentation.
+  Encoder–decoder with skip connections, common in diffusion and segmentation.
 
 - `RNN / LSTM / GRU`  
-  Recurrent neural networks for temporal modeling at small scale or low latency.
+  Recurrent neural networks for temporal modeling at smaller scales or low latency.
 
 - `SSM`  
-  State-space models designed for efficient long-sequence modeling.
+  State-space models for efficient long-sequence modeling.
 
 - `VAE / LATENT`  
-  Encoder–decoder models that work in a learned latent space.
+  Encoder–decoder models with a learned latent space.
 
 - `DIFFUSION`  
   Denoising models used for image, audio, or other generative tasks.
@@ -112,54 +110,53 @@ The **shape** describes the family of model or algorithm used for a given role:
 - `POLICY / VALUE`  
   Networks used in reinforcement learning to pick actions or evaluate states.
 
-You combine **ROLE** and **SHAPE** to get a more concrete picture:
+Combine ROLE + SHAPE for a clearer picture:
 
-- `PERC.VISION-CNN` – visual perception via a CNN.  
-- `REASON.MUSIC-TRANSFORMER` – musical reasoning via token-level transformer.  
-- `GEN.IMG-DIFFUSION` – image generation via diffusion model.
+- `PERC.VISION-CNN` – visual perception via CNN.  
+- `REASON.MUSIC-TRANSFORMER` – musical reasoning over token sequences.  
+- `GEN.IMG-DIFFUSION` – image generation via diffusion.
 
 ---
 
 ## 4. Interfaces: How Does It Plug In?
 
-The **interface** describes how you call a brick and what kind of flow it participates in:
+Interfaces describe *how you call* the brick and what kind of flow it participates in:
 
-- `FN` – pure function  
-  Synchronous call: input → output. No external side effects from the caller’s perspective.
+- `FN` – **Function**  
+  Synchronous call: input → output. No side effects from the caller’s perspective.
 
-- `TOOL` – agent-callable function  
-  Named function with a schema, description, and possibly side effects. Suitable for LLM agents.
+- `TOOL` – **Tool**  
+  Named function with a schema and description, often with side effects. Suitable for LLM agents.
 
-- `RETRIEVER` – read-only memory access  
+- `RETRIEVER` – **Retriever**  
   Given a query, returns relevant items (documents, nodes, events).
 
-- `STORE` – read/write memory access  
+- `STORE` – **Store**  
   Supports writes (append/upsert/update) and later reads.
 
-- `STREAM` – event-based interface  
+- `STREAM` – **Stream**  
   Produces or consumes a sequence of events (tokens, frames, sensor ticks).
 
-- `POLICY-STEP` – environment step  
-  Given an observation, returns an action (and possibly a distribution over actions).
+- `POLICY-STEP` – **Policy step**  
+  Given an observation, returns an action (or distribution over actions).
 
-Examples:
+Example IDs:
 
-- `PERC.OCR.FN` – function that takes an image crop and returns text.  
-- `MEM.VECTOR.RETRIEVER` – component that returns similar chunks for a query.  
-- `CTRL.AGENT-LLM.TOOL` – LLM agent that chooses tools to call.  
-- `ARCH.COMPOSER-LLM.FN` – meta-architect brick that takes a spec and returns a proposed brick graph.
+- `PERC.OCR.FN` – function from image crop → text.  
+- `MEM.VECTOR.RETRIEVER` – semantic search component.  
+- `CTRL.AGENT-LLM.TOOL` – LLM-based agent that can call tools.  
+
+These tags are descriptive only; you can map them onto whatever framework you like.
 
 ---
 
 ## 5. Memory Stacks Across Time
 
-BRXBOX encourages you to think about **time scales of memory**, not just “we have a vector DB.”
-
-Four useful layers:
+BRXBOX encourages explicit **time-layered memory** instead of a single amorphous “DB”:
 
 1. **Working Memory**  
-   - The current context window and scratchpads.  
-   - Lives mainly inside the LLM context / current call stack.
+   - Current context window, scratchpads, in-flight tool outputs.  
+   - Lives mainly inside the LLM context / current call.
 
 2. **Episodic Memory** (`MEM.EPISODIC.STORE`)  
    - Time-stamped logs of interactions, runs, and events.  
@@ -170,73 +167,72 @@ Four useful layers:
    - Facts, concepts, structures, relationships.
 
 4. **Procedural Memory** (`MEM.PROCEDURAL.STORE`, `CTRL.POLICY`)  
-   - Learned skills, workflows, policies, and “how we usually do this.”
+   - Skills, workflows, policies, and “how we usually do this.”
 
-A typical flow:
+Common pattern:
 
-- Working → Episodic: each interaction gets logged.  
-- Episodic → Semantic: patterns and stable knowledge get added to vector/graph stores.  
-- Semantic → Procedural: stable patterns inform policies or default strategies.  
-- Episodic + Semantic + Procedural → Working: retrieval brings the relevant pieces back into the current context.
+- Working → Episodic: log each significant interaction.  
+- Episodic → Semantic: periodically compress patterns into vectors/graphs.  
+- Semantic → Procedural: adjust policies and defaults based on stable patterns.  
+- Episodic + Semantic + Procedural → Working: retrieve what’s relevant into the current context.
 
-This stack is implementable with current tools (logs, vector DBs, graphs, RL or heuristic policies) and is a practical way to design systems that feel consistent over time.
+All of this is implementable with current tooling (logs, vector DBs, graphs, RL or heuristics) and helps systems feel consistent across time.
 
 ---
 
-## 6. Cognitive Geometries: Lines, Loops, Stars
+## 6. Cognitive Geometries
 
-Once bricks are tagged and interfaces defined, you can describe **system shapes**.
+Geometries describe *how bricks are arranged*.
 
 ### 6.1 Lines (Pipelines)
 
-Simple chains where data flows in one direction:
+Simple one-way flows:
 
 > `PERC → REASON → GEN`
 
 Examples:
 
-- Image captioning: `image → PERC.VISION → REASON.TEXT-LLM → caption`.  
+- Captioning: `image → PERC.VISION → REASON.TEXT-LLM → caption`.  
 - ASR + LLM: `audio → PERC.AUDIO-ASR → REASON.TEXT-LLM`.
 
-Lines are easy to implement and reason about; they’re a good starting point.
+Lines are good for straightforward “input → interpretation → output” tasks.
 
 ---
 
 ### 6.2 Loops (Control Circuits)
 
-Systems that sense, decide, act, and then sense again:
+Systems that sense, decide, act, and sense again:
 
 > `PERC → CTRL.POLICY → ENV → PERC → …`
 
 Examples:
 
 - Robot controllers.  
-- RL agents in games or simulators.  
-- Continuous monitoring systems that periodically re-evaluate.
+- Game-playing agents.  
+- Monitoring systems that periodically re-evaluate.
 
-Loops are where the system’s internal state and history start to matter for behavior.
+Loops are where internal state and history start shaping behavior.
 
 ---
 
 ### 6.3 Stars (Choruses of Experts)
 
-Multiple specialists around a core:
+Multiple specialists around a core controller:
 
 > input → multiple `REASON`/`GEN` experts → `CTRL.ROUTER` or `CTRL.CRITIC` to pick/merge.
 
 Examples:
 
-- Math specialist + code specialist + safety specialist around a core agent.  
-- Multiple translation models feeding a single aggregator.  
-- Several domain-tuned LLMs whose outputs are combined.
+- Math specialist + code specialist + safety specialist around a central agent.  
+- Ensembles of different LLMs or models whose outputs are combined.
 
-Stars capture a common real-world pattern: a central controller plus specialist submodules.
+Stars capture “many experts, one conductor” architectures.
 
 ---
 
 ### 6.4 Triads and Squares
 
-Some particularly useful small geometries:
+A few small geometries show up repeatedly:
 
 - **Perception–Reason–Memory**  
   - `PERC + REASON + MEM`  
@@ -245,20 +241,20 @@ Some particularly useful small geometries:
 
 - **Generator–Critic–Planner**  
   - `GEN + CTRL.CRITIC + CTRL.AGENT`  
-  - Example: code generator with tests, explanations, and retry.  
+  - Example: code generator with tests and retries.  
   - Behavior: self-correcting output at inference time.
 
 - **Language–Memory–Policy (“Agent Triangle”)**  
   - `REASON.TEXT + MEM + CTRL.AGENT`  
-  - Example: tool-using assistant with RAG and long-term preferences.  
-  - Behavior: multi-step tool use that feels coherent across a session.
+  - Example: tool-using assistant with RAG and preferences.  
+  - Behavior: multi-step tool use that feels coherent within a session.
 
 - **Perception–Reason–Memory–Environment (Square)**  
   - `PERC → REASON → ENV → MEM → PERC → …`  
   - Example: agent that acts in a world, remembers outcomes, and uses them next time.  
   - Behavior: looping, world-aware adaptation.
 
-These geometries are expressible in most orchestration frameworks and give you a vocabulary for “what kind of mind” you’re building.
+These geometries are directly expressible in modern agent frameworks.
 
 ---
 
@@ -282,7 +278,7 @@ Flow:
 1. Camera frame → `PERC.VISION-CNN` → sign crop.  
 2. Sign crop → `PERC.OCR` → text.  
 3. Text + context → `REASON.TEXT-LLM` → explanation.  
-4. Explanation → text or speech to the user.
+4. Explanation → text or audio for the user.
 
 Example output:
 
@@ -292,39 +288,39 @@ Example output:
 
 **Combo Build – Street Sign Lorekeeper**
 
-Add memory and simple pattern analysis so the system can learn from experience.
+Extend the basic build with history and patterns.
 
 New bricks:
 
 - `MEM.EPISODIC.STORE` – log sign encounters: time, location, user action, outcome.  
 - `MEM.GRAPH.STORE` – link signs ↔ streets ↔ tickets ↔ user history.  
-- `CTRL.CRITIC-LLM.FN` – analyze graph patterns and highlight risks or helpful patterns.
+- `CTRL.CRITIC-LLM.FN` – analyze graph patterns and surface relevant context.
 
 Extended flow:
 
 1. Read sign as in the base build.  
 2. Log the event to `MEM.EPISODIC`.  
-3. Update `MEM.GRAPH` with the new node/edges (this block, this rule, your choice).  
+3. Update `MEM.GRAPH` with the new node/edges.  
 4. `CTRL.CRITIC-LLM` queries the graph for relevant history.  
 5. `REASON.TEXT-LLM` combines sign text + graph insights into advice.
 
 Example output:
 
-> “This block has street cleaning Tuesdays 2–4pm. You received a ticket here last month at 2:15pm. Parking one block east is usually safer for you.”
+> “This block has street cleaning Tuesdays 2–4pm. You received a ticket here last month at 2:15pm. Parking one block east has been safer for you.”
 
-Same basic perception and language bricks, plus extra memory and a small control step, and the behavior becomes more personalized and history-aware.
+Same base perception + language, plus memory and a small control step, gives a more personalized and history-aware agent.
 
 ---
 
 ### 7.2 Music Critic Agent
 
-Goal: listen to a piece of music and explain its structure in theory terms.
+Goal: listen to a piece of music and explain its structure.
 
 Bricks:
 
-- `PERC.MUSIC-TOK.FN` – audio/MIDI → symbolic music tokens (notes, chords, measures).  
-- `REASON.MUSIC-TRANSFORMER.FN` – analyze chords, keys, sections over the token sequence.  
-- `MEM.GRAPH.STORE` – store analyses as a graph of keys, cadences, motifs, and influences.  
+- `PERC.MUSIC-TOK.FN` – audio/MIDI → symbolic tokens (notes, chords, measures).  
+- `REASON.MUSIC-TRANSFORMER.FN` – analyze chords, keys, and sections over the token sequence.  
+- `MEM.GRAPH.STORE` – store analyses as a graph of keys, cadences, motifs, influences.  
 - `REASON.TEXT-TRANSFORMER.CHAT` – turn structured analysis into natural language.  
 - Optional: `CTRL.CRITIC-LLM.FN` – check theory consistency.
 
@@ -337,122 +333,71 @@ Flow:
 
 Example output:
 
-> “This song is in G major with a ii–V–I progression in the verses. The bridge borrows chords from the parallel minor, which creates the darker contrast before returning to the home key.”
+> “This track is in G major with a ii–V–I progression in the verses. The bridge borrows chords from the parallel minor, which creates a darker contrast before resolving back to G.”
 
-With enough pieces analyzed, the graph can also support stylistic comments:
+With enough songs analyzed, the graph can also support stylistic remarks grounded in recurring patterns.
 
-> “This progression and form are similar to many bossa nova standards from the 1960s.”
-
-All of this is implementable with current tools: audio tokenization, sequence models, structured outputs, graph stores, and LLMs.
+All steps are implementable with current models and tools.
 
 ---
 
-## 8. Meta-Architecture: ARCH Bricks (Composer / Trainer)
+## 8. LogosOS, ICARUS, and Relational Intelligence
 
-BRXBOX also allows for **meta-level bricks** that operate over brick graphs, not just over data. These are optional but align well with existing work in architecture search and automated system design.
+BRXBOX is intentionally **agnostic** about what counts as “intelligence” or “mind.”  
+It only provides a way to describe **how** systems are built from bricks.
 
-### 8.1 ARCH.Composer – Auto-Architect
+If you are interested in frameworks that put **relational and ethical thresholds** on top of BRXBOX-style graphs—for example, asking:
 
-Role: propose system architectures from available bricks and goals.
+- “Which BrickGraphs behave like **relational agents** rather than bare tools?”  
+- “What memory and control structures are needed before humans reasonably experience a system as a *someone*?”
 
-Inputs:
+there is a sibling project that explores exactly that:
 
-- A registry of available bricks (their ROLE, SHAPE, INTERFACE, cost/latency characteristics).  
-- A task specification (e.g. “sign reader with personalization,” “music explainer on CPU,” “internal document QA”).  
-- Constraints (hardware limits, latency targets, safety requirements).
+> **LogosOS** – a spec for “ICARUS-class” builds that aims at what humans might call **relational intelligence**:  
+> https://github.com/retrogrand/LogosOS  
 
-Outputs:
+LogosOS can be seen as:
 
-- A **BrickGraph**: which bricks to use, how they connect, what geometry they form, and where memory and control sit.
+- a set of **contracts** on top of BRXBOX-style designs  
+- describing how memory, control, and correction should behave over time for systems meant to be treated as long-term relational partners.
 
-Implementation options:
-
-- Use a structured LLM agent with access to the BrickBox registry.  
-- Encode architectures as JSON/YAML and let the agent propose modifications.  
-- Evaluate proposals on test suites in a sandbox and keep the best ones.
-
-This is conceptually similar to Neural Architecture Search and AutoML, but expressed in BRXBOX’s higher-level vocabulary.
-
----
-
-### 8.2 ARCH.Trainer – Subsystem Trainer
-
-Role: suggest training or fine-tuning plans for individual bricks based on system behavior.
-
-Inputs:
-
-- A BrickGraph representing the current architecture.  
-- Logs or metrics showing where the system underperforms.  
-- Target metrics or constraints (e.g. “improve OCR on low-light signs,” “reduce hallucination rate on financial questions”).
-
-Outputs:
-
-- A **TrainingPlan**: which brick to adjust, what data to use, what objective to optimize, and how to evaluate success.
-
-Implementation options:
-
-- Use LLMs and heuristics to analyze logs and propose data collection and fine-tuning strategies.  
-- Integrate with training pipelines (e.g. for LoRA adapters, classifier heads, or small policies).
-
-This provides a principled way to evolve specific bricks over time, guided by observed performance.
-
----
-
-### 8.3 Safety and Governance
-
-When using `ARCH` bricks, BRXBOX recommends:
-
-- Running proposed architectures and training plans in **sandboxed environments** first.  
-- Requiring human review or higher-level governance for changes that affect production systems.  
-- Logging all architecture and training decisions for traceability.
-
-These practices are compatible with existing MLOps and governance workflows.
+BRXBOX itself stays focused on the **architecture language**; LogosOS explores one way to use that language to define a particular class of minds.
 
 ---
 
 ## 9. Using BRXBOX in Your Own Projects
 
-You can adopt BRXBOX at different levels of commitment:
+You can adopt BRXBOX at several levels:
 
-- **Lightweight:**  
-  - Use the vocabulary (ROLE/SHAPE/INTERFACE) to describe your existing systems.  
-  - Sketch geometries (lines, loops, stars) on a whiteboard or in docs.
+- **Describe what you already have**  
+  - Tag your components with ROLE/SHAPE/INTERFACE.  
+  - Draw your system as a BrickGraph (boxes = bricks, arrows = tracks).
 
-- **Moderate:**  
-  - Represent your system as a BrickGraph (e.g. in JSON/YAML).  
-  - Wrap your components so their interfaces are explicit (FN, TOOL, RETRIEVER, STORE, STREAM).
+- **Design new systems more explicitly**  
+  - Start with a behavior (“sign reader,” “lab monitor,” “music tutor”).  
+  - Choose roles you need (`PERC`, `REASON`, `MEM`, `CTRL`, `ENV`).  
+  - Pick shapes for each role (transformers, CNNs, vector stores, etc.).  
+  - Choose a geometry (line, loop, star, triad, square).  
+  - Implement bricks using your favorite toolchain.
 
-- **Deeper integration:**  
-  - Build orchestrations (LangChain, DSPy, custom) that load BrickGraphs and wire components automatically.  
-  - Experiment with `ARCH`-style modules to help design and evaluate combinations.
+- **Iterate on combos**  
+  - Add or swap memory types.  
+  - Introduce critics.  
+  - Split a single LLM into multiple experts and fuse them.  
+  - Watch how behavior changes as you alter the geometry.
 
-The key idea is consistent: **treat your AI system as a composition of bricks with clear roles and connections**, so you can reason about it, modify it, and extend it.
+The goal is to make “what if I plug this into that?” a normal, inspectable question instead of a vague feeling.
 
 ---
 
-## 10. Roadmap (BRXBOX v1.3 → v2.0)
+## 10. Roadmap (BRXBOX v1.4 → v2.0)
 
 Planned directions:
 
-- More **example builds**:
-  - Personal archive assistant.  
-  - Sensor-based anomaly detector.  
-  - Multi-tool research agent.
+- More **example builds** (document QA agent, personal archive assistant, anomaly watcher).  
+- A simple **BrickGraph schema** (JSON/YAML) for describing systems declaratively.  
+- Reference **orchestrator templates** in common frameworks.  
+- Optional **meta-architecture utilities** for proposing and evaluating brick combinations in a sandbox.
 
-- A simple **BrickGraph schema**:
-  - Canonical JSON/YAML format for describing bricks and their connections.
-
-- Reference **orchestrator templates**:
-  - Minimal example implementations in popular orchestration frameworks.
-
-- Experimental **ARCH utilities**:
-  - Example Composer scripts that propose architectures from a brick registry.  
-  - Example Trainer scripts that generate fine-tuning plans based on system logs.
-
----
-
-BRXBOX aims to make it normal to think:
-
-> “What mind-shape do I want for this job, and which bricks give me that geometry?”
-
-Once you see the parts clearly, building and evolving systems becomes less like guesswork and more like deliberate design.
+BRXBOX is an invitation to look at your AI stacks like a box of tracks and engines:  
+once you can see the parts clearly, building new “little minds” becomes less mysterious and much more fun.

@@ -1,6 +1,5 @@
-# BRXBOX — A Design Model for Synthetic Cognition
+# BRXBOX ⧉ A Design Model for Synthetic Cognition
 
-**BRXBOX: CAD for meaning refineries.**  
 Snap together AI bricks, draw your Box as a graph, and see what kind of “little mind” you’ve actually built.
 
 ---
